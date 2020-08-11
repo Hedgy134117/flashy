@@ -13,7 +13,7 @@ class SetList(APIView):
     def get(self, request):
         """ List all sets """
         sets = Set.objects.all()
-        serializer = SetSerializer(sets, many=True)
+        serializer = SetSerializer(sets, many=True, context={'request': request})
         return Response(serializer.data)
     
     def post(self, request):
