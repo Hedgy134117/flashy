@@ -10,14 +10,15 @@ class CardSerializer(serializers.ModelSerializer):
 
 
 class SetSerializer(serializers.ModelSerializer):
-    cards = serializers.HyperlinkedIdentityField(view_name='set-card-list')
+    link = serializers.HyperlinkedIdentityField(read_only=True, view_name='set-detail')
+    cards = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='card-detail')
 
     class Meta:
         model = Set
-        fields = ['name', 'cards']                  # Excluding owner as it is asigned in views
+        fields = ['name', 'link', 'cards']      # Excluding owner as it is asigned in views
 
 class UserSerializer(serializers.ModelSerializer):
-    sets = serializers.PrimaryKeyRelatedField(many=True, queryset=Set.objects.all())
+    sets = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
