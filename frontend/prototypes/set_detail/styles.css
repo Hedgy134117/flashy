@@ -1,0 +1,19 @@
+#cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card p {
+    padding: 8px;
+}
+
+.card p:first-of-type {
+    border-right: 1px solid gray;
+}
+
+.card {
+    padding: 12px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
+}
