@@ -87,6 +87,26 @@ class SetDetail(APIView):
         _set.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class CardList(APIView):
+    def get_set(self, pk):
+        """ Get the set that groups the cards together using the set id """
+        try:
+            return Set.objects.get(id=pk)
+        except Set.DoesNotExist:
+            return Http404
+
+    def get_cards(self, _set):
+        """ Get a specific card in a set """
+        try:
+            return Card.objects.filter(group=_set)
+        except:
+            return Http404
+
+    def get(self, request, pk):
+        _set = self.get_set(pk)
+        cards = self.get_cards(_set)
+        serializer = CardSerializer(cards, many=True, context={'request': request})
+        return Response(serializer.data)
 
 class CardDetail(APIView):
     """
